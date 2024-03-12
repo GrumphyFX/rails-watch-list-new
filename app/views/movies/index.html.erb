@@ -1,15 +1,8 @@
 <div class="container">
-  <h1 class="text-center my-4">historic Classic</h1>
-  <%= simple_form_for [@list, @bookmark] do |f| %>
-    <%= f.association :movie, collection: @movies, prompt: 'Movie *' %>
-    <%= f.input :comment, label: 'Comment *' %>
-    <%= f.button :submit, 'Add movie', class: 'btn btn-primary' %>
-    <%= link_to 'Back', lists_path, class: 'btn btn-secondary' %>
-  <% end %>
-
-  <div class="row my-4">
+  <h1 class="text-center my-4">All Movies</h1>
+  <div class="row">
     <% @movies.each do |movie| %>
-      <div class="col-md-4 mb-4">
+      <div class="col-md-6 mb-4">
         <div class="card">
           <%= image_tag movie.poster_url, class: 'card-img-top' %>
           <div class="card-body">
