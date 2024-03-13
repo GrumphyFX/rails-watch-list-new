@@ -1,24 +1,30 @@
-<div class="container">
-  <h1 class="text-center my-4">historic Classic</h1>
-  <%= simple_form_for [@list, @bookmark] do |f| %>
-    <%= f.association :movie, collection: @movies, prompt: 'Movie *' %>
-    <%= f.input :comment, label: 'Comment *' %>
-    <%= f.button :submit, 'Add movie', class: 'btn btn-primary' %>
-    <%= link_to 'Back', lists_path, class: 'btn btn-secondary' %>
+<h1>Add a movie to <%= @list.name %></h1>
+
+<%= form_with(model: [@list, @bookmark], local: true) do |form| %>
+  <% if @bookmark.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bookmark.errors.count, "error") %> prohibited this bookmark from being saved:</h2>
+      <ul>
+        <% @bookmark.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
-  <div class="row my-4">
-    <% @movies.each do |movie| %>
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <%= image_tag movie.poster_url, class: 'card-img-top' %>
-          <div class="card-body">
-            <h5 class="card-title"><%= movie.title %></h5>
-            <p class="card-text"><%= movie.overview %></p>
-            <p class="card-text">Rating: <%= movie.rating %></p>
-          </div>
-        </div>
-      </div>
-    <% end %>
+  <div class="field">
+    <%= form.label :movie_id %>
+    <%= form.collection_select :movie_id, Movie.all, :id, :title, prompt: 'Select a movie' %>
   </div>
-</div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Add Movie' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', list_path(@list) %>

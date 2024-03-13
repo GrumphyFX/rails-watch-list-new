@@ -17,7 +17,8 @@ movies['results'].each do |movie_data|
     title: movie_data['title'],
     overview: movie_data['overview'],
     poster_path: "https://image.tmdb.org/t/p/w500#{movie_data['poster_path']}",
-    rating: movie_data['vote_average']
+    rating: movie_data['vote_average'],
+    tmdb_id: movie_data['id']
   )
 end
 

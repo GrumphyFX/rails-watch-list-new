@@ -1,10 +1,12 @@
-<!-- app/views/lists/index.html.erb -->
-<h1>All Lists</h1>
-<%= link_to 'New List', new_list_path, class: 'btn btn-primary mb-3' %>
-<%= link_to 'View All Movies', movies_path, class: 'btn btn-primary mb-3' %>
+<h1>My Lists</h1>
 
-<h2>All Movies</h2>
-<% @movies.each do |movie| %>
-  <h3><%= movie.title %></h3>
-  <!-- Add more movie details here -->
+<% @lists.each do |list| %>
+  <div>
+    <h2><%= link_to list.name, list_path(list) %></h2>
+    <%= link_to 'Edit', edit_list_path(list), class: 'btn btn-primary' %> |
+    <%= link_to 'Delete', list_path(list), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %> |
+    <%= link_to 'Back', movies_path , class: 'btn btn-secondary' %>
+  </div>
 <% end %>
+
+<%= link_to 'Create a New List', new_list_path, class: 'btn btn-success' %>
