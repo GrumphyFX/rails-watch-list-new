@@ -5,4 +5,5 @@ class Bookmark < ApplicationRecord
   validates :list, presence: true
   validates :comment, length: { minimum: 6 }, allow_blank: true
   validates :movie, uniqueness: { scope: :list }
+  validates :tmdb_id, uniqueness: { scope: :list_id }
 end
