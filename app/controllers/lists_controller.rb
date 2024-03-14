@@ -7,7 +7,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @bookmarks = @list.bookmarks.includes(:movie)
+    @bookmarks = @list.bookmarks
   end
 
   def new
@@ -26,7 +26,7 @@ class ListsController < ApplicationController
   def edit
     @list = List.find(params[:id])
   end
-
+  
   def update
     @list = List.find(params[:id])
     if @list.update(list_params)
@@ -37,8 +37,9 @@ class ListsController < ApplicationController
   end
 
   def destroy
+    @list = List.find(params[:id])
     @list.destroy
-    redirect_to lists_url, notice: 'List was successfully deleted.'
+    redirect_to lists_path, notice: 'List was successfully deleted.'
   end
 
   private
