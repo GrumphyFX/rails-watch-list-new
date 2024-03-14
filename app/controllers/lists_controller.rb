@@ -12,6 +12,7 @@ class ListsController < ApplicationController
 
   def new
     @list = List.new
+    @bookmark = @list.bookmarks.build
   end
 
   def create
@@ -37,14 +38,20 @@ class ListsController < ApplicationController
   end
 
   def destroy
-    @list = List.find(params[:id])
-    @list.destroy
-    redirect_to lists_path, notice: 'List was successfully deleted.'
-  end
+  @list = List.find(params[:id])
+  @list.destroy
+  redirect_to lists_path, notice: 'List was successfully deleted.'
+end
 
   private
 
   def set_list
     @list = List.find(params[:id])
   end
+
+
+  def list_params
+    params.require(:list).permit(:name, bookmarks_attributes: [:movie_id, :comment])
+  end
+  
 end

@@ -1,2 +1,12 @@
 <h1>New List</h1>
-<%= render 'form', list: @list %>
+
+<%= simple_form_for @list do |f| %>
+  <%= f.input :name %>
+
+  <%= f.simple_fields_for :bookmarks do |bookmark_form| %>
+    <%= bookmark_form.association :movie, collection: Movie.all, prompt: 'Select a movie' %>
+    <%= bookmark_form.input :comment %>
+  <% end %>
+
+  <%= f.button :submit %>
+<% end %>
