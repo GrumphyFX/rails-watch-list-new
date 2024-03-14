@@ -18,14 +18,14 @@ class ListsController < ApplicationController
   def create
     @list = List.new(list_params)
     if @list.save
-      redirect_to @list, notice: 'List was successfully created.'
+      redirect_to list_path(@list), notice: 'List was successfully created.'
     else
       if @list.errors.has_key?(:bookmarks)
         @list.errors.full_messages_for(:bookmarks).each do |message|
           @list.errors.add(:base, message)
         end
       end
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
