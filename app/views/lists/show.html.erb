@@ -1,7 +1,7 @@
 <h1><%= @list.name %></h1>
 
 <% @bookmarks.each do |bookmark| %>
-  <div>
+  <div class="list-container mb-3">
     <h2><%= bookmark.movie.title %></h2>
     <p><%= bookmark.movie.overview %></p>
     <p>Comment: <%= bookmark.comment %></p>
@@ -9,6 +9,8 @@
   </div>
 <% end %>
 
-<%= link_to 'Edit', edit_list_path(@list), class: 'btn btn-primary' %> |
-<%= link_to 'Back', lists_path, class: 'btn btn-secondary' %> |
-<%= button_to 'Delete List', list_path(@list), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<div class="d-flex">
+  <%= link_to 'Edit', edit_list_path(@list), class: 'btn btn-primary mr-2' %> |
+  <%= link_to 'Back', lists_path, class: 'btn btn-secondary mr-2' %> |
+  <%= button_to 'Delete List', list_path(@list), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+</div>

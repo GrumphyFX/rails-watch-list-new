@@ -20,6 +20,11 @@ class ListsController < ApplicationController
     if @list.save
       redirect_to @list, notice: 'List was successfully created.'
     else
+      if @list.errors.has_key?(:bookmarks)
+        @list.errors.full_messages_for(:bookmarks).each do |message|
+          @list.errors.add(:base, message)
+        end
+      end
       render :new
     end
   end
@@ -38,10 +43,11 @@ class ListsController < ApplicationController
   end
 
   def destroy
-  @list = List.find(params[:id])
-  @list.destroy
-  redirect_to lists_path, notice: 'List was successfully deleted.'
-end
+    @list = List.find(params[:id])
+    @list.bookmarks.destroy_all
+    @list.destroy
+    redirect_to lists_path, notice: 'List and associated bookmarks were successfully deleted.'
+  end
 
   private
 
