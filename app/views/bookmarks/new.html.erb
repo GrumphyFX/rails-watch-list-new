@@ -1,8 +1,8 @@
-<h1>Add a movie to <%= @list.name %></h1>
+<h1 class="mb-4">Add a movie to <%= @list.name %></h1>
 
-<%= form_with(model: [@list, @bookmark], local: true) do |form| %>
+<%= form_with(model: [@list, @bookmark], local: true, html: { class: 'form-group' }) do |form| %>
   <% if @bookmark.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(@bookmark.errors.count, "error") %> prohibited this bookmark from being saved:</h2>
       <ul>
         <% @bookmark.errors.full_messages.each do |message| %>
@@ -12,19 +12,19 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :movie_id %>
-    <%= form.collection_select :movie_id, Movie.all, :id, :title, prompt: 'Select a movie' %>
+    <%= form.collection_select :movie_id, Movie.all, :id, :title, { prompt: 'Select a movie' }, { class: 'form-control' } %>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :comment %>
-    <%= form.text_area :comment %>
+    <%= form.text_area :comment, class: 'form-control' %>
   </div>
 
   <div class="actions">
-    <%= form.submit 'Add Movie' %>
+    <%= form.submit 'Add Movie', class: 'btn btn-primary mt-3' %>
   </div>
 <% end %>
 
-<%= link_to 'Back', list_path(@list) %> 
+<%= link_to 'Back', list_path(@list), class: 'btn btn-secondary mt-3' %> 

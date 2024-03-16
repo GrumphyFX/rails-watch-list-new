@@ -3,7 +3,13 @@
 <%= simple_form_for @list do |f| %>
   <%= f.input :name %>
 
-  <%= f.association :movies, collection: Movie.all, input_html: { multiple: true }, prompt: 'Select movies', selected: @list.movies.pluck(:id) %>
+  <div id="bookmarks">
+    <%= f.simple_fields_for :bookmarks do |bookmark_form| %>
+      <%= render 'bookmark_fields', f: bookmark_form %>
+    <% end %>
+  </div>
+
+  <%= link_to 'Add Movie', '#', class: 'add_bookmark_fields btn btn-success' %>
 
   <%= f.button :submit, 'Update List' %>
 <% end %>

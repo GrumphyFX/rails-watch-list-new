@@ -3,7 +3,10 @@
 <%= simple_form_for @list do |f| %>
   <%= f.input :name %>
 
-  <%= f.association :movies, collection: Movie.all, input_html: { multiple: true }, prompt: 'Select movies' %>
+  <%= f.simple_fields_for :bookmarks, @bookmark do |bookmark_form| %>
+    <%= bookmark_form.association :movie, prompt: 'Select a movie' %>
+    <%= bookmark_form.input :comment, label: 'Comment', input_html: { rows: 3 } %>
+  <% end %>
 
   <%= f.button :submit %>
 <% end %>

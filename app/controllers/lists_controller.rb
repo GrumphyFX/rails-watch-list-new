@@ -12,16 +12,13 @@ class ListsController < ApplicationController
 
   def new
     @list = List.new
-    @bookmark = @list.bookmarks.build
+    @list.bookmarks.build
   end
 
   def create
     @list = List.new(list_params)
     if @list.save
-      params[:list][:movie_ids].each do |movie_id|
-        @list.bookmarks.create(movie_id: movie_id)
-      end
-      redirect_to @list, notice: 'List was successfully created.'
+      redirect_to list_path(@list), notice: 'List was successfully created.'
     else
       render :new
     end
@@ -30,14 +27,11 @@ class ListsController < ApplicationController
   def edit
     @list = List.find(params[:id])
   end
-  
+
   def update
+    @list = List.find(params[:id])
     if @list.update(list_params)
-      @list.bookmarks.where.not(movie_id: params[:list][:movie_ids]).destroy_all
-      params[:list][:movie_ids].each do |movie_id|
-        @list.bookmarks.find_or_create_by(movie_id: movie_id)
-      end
-      redirect_to @list, notice: 'List was successfully updated.'
+      redirect_to list_path(@list), notice: 'List was successfully updated.'
     else
       render :edit
     end
@@ -59,7 +53,6 @@ class ListsController < ApplicationController
 
 
   def list_params
-    params.require(:list).permit(:name, movie_ids: [])
+    params.require(:list).permit(:name, bookmarks_attributes: [:id, :movie_id, :comment, :_destroy])
   end
-  
 end
