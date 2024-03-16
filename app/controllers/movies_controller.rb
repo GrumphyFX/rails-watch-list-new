@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
     response = HTTParty.get(url)
     if response.code == 200
       @movies = JSON.parse(response.body)['results']
+      puts "Movies: #{@movies.inspect}"
     else
       flash[:alert] = 'Failed to fetch movies from the API.'
       @movies = []

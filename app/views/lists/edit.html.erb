@@ -1,12 +1,9 @@
 <h1>Edit List</h1>
 
-<%= form_with(model: @list, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+<%= simple_form_for @list do |f| %>
+  <%= f.input :name %>
 
-  <div class="actions">
-    <%= form.submit 'Update List' %>
-  </div>
+  <%= f.association :movies, collection: Movie.all, input_html: { multiple: true }, prompt: 'Select movies', selected: @list.movies.pluck(:id) %>
+
+  <%= f.button :submit, 'Update List' %>
 <% end %>

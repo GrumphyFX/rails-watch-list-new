@@ -18,14 +18,12 @@ class ListsController < ApplicationController
   def create
     @list = List.new(list_params)
     if @list.save
-      redirect_to list_path(@list), notice: 'List was successfully created.'
-    else
-      if @list.errors.has_key?(:bookmarks)
-        @list.errors.full_messages_for(:bookmarks).each do |message|
-          @list.errors.add(:base, message)
-        end
+      params[:list][:movie_ids].each do |movie_id|
+        @list.bookmarks.create(movie_id: movie_id)
       end
-      render :new, status: :unprocessable_entity
+      redirect_to @list, notice: 'List was successfully created.'
+    else
+      render :new
     end
   end
 
@@ -34,13 +32,17 @@ class ListsController < ApplicationController
   end
   
   def update
-    @list = List.find(params[:id])
     if @list.update(list_params)
+      @list.bookmarks.where.not(movie_id: params[:list][:movie_ids]).destroy_all
+      params[:list][:movie_ids].each do |movie_id|
+        @list.bookmarks.find_or_create_by(movie_id: movie_id)
+      end
       redirect_to @list, notice: 'List was successfully updated.'
     else
       render :edit
     end
   end
+  
 
   def destroy
     @list = List.find(params[:id])
@@ -57,7 +59,7 @@ class ListsController < ApplicationController
 
 
   def list_params
-    params.require(:list).permit(:name, bookmarks_attributes: [:movie_id, :comment])
+    params.require(:list).permit(:name, movie_ids: [])
   end
   
 end
