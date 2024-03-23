@@ -1,3 +1,6 @@
-const { environment } = require('@rails/webpacker')
+const { environment } = require('@rails/webpacker');
 
-module.exports = environment
+// Add this line to remove the 'node' configuration
+environment.config.delete('node');
+
+module.exports = environment;
